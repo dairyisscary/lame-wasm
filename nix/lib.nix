@@ -3,6 +3,15 @@ let
   inherit (inputs) nixpkgs;
   inherit (nixpkgs) lib;
 
+  # Overlay for a emscripten derivation that doesn't require checks
+  wasmOverlay = final: prev: {
+    mkWasmDerivation = arg: final.emscriptenStdenv.mkDerivation ({
+      env.wasmOptimizeFlags = lib.concatStringsSep " " [ "-Os" "-flto" "-msimd128" ];
+      doCheck = false;
+      checkPhase = "";
+    } // arg);
+  };
+
   isCoreUtils = lib.hasPrefix "coreutils";
   # Overlay for "minimal" stdenv and shells without a compiler few environment modifications
   minimalShellOverlay = final: prev: {
@@ -23,7 +32,7 @@ let
         let
           pkgs = import nixpkgs {
             inherit system;
-            overlays = [ minimalShellOverlay ];
+            overlays = [ wasmOverlay minimalShellOverlay ];
           };
           mergeOutputs = accum: outputName: output: accum // {
             ${outputName} = (accum.${outputName} or { }) // { ${system} = output; };
