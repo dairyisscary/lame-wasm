@@ -109,6 +109,7 @@
 
         shellHook = ''
           export PATH="${builtins.getEnv "PWD"}/node_modules/.bin:$PATH"
+          export LAME_WASM_BRIDGE="${lameWasmBridge}"
         '';
       };
 
