@@ -1,0 +1,12 @@
+{
+  "name": "lame-wasm",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^24.13.2",
+    "oxfmt": "^0.55.0",
+    "oxlint": "^1.70.0",
+    "oxlint-tsgolint": "^0.23.0",
+    "typescript": "7.0.1-rc"
+  },
+  "packageManager": "pnpm@11.8.0"
+}

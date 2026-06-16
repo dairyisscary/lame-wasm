@@ -88,6 +88,12 @@
           runHook postBuild
         '';
       };
+
+      nodejs = pkgs.nodejs-slim_24;
+      corepackShims = pkgs.runCommand "node-package-managers" { } ''
+        mkdir -p $out/bin
+        ${nodejs.corepack}/bin/corepack enable --install-directory $out/bin npm pnpm yarn
+      '';
     in
     {
       formatter = pkgs.nixpkgs-fmt;
@@ -96,9 +102,14 @@
         name = "lame-wasm-devshell";
 
         packages = [
+          corepackShims
+          (pkgs.typescript-language-server.override { inherit nodejs; })
+          nodejs.out
         ];
 
-        shellHook = "";
+        shellHook = ''
+          export PATH="${builtins.getEnv "PWD"}/node_modules/.bin:$PATH"
+        '';
       };
 
       packages.lame-wasm-bridge = lameWasmBridge;
