@@ -5,6 +5,16 @@ import { defineConfig, searchForWorkspaceRoot } from "vite";
 const LAME_LIB_DIR = resolve(process.env.LAME_WASM_BRIDGE!, "lib");
 
 export default defineConfig({
+  build: {
+    lib: {
+      entry: resolve(import.meta.dirname, "src/index.ts"),
+      fileName: "index",
+      name: "LAME WASM",
+    },
+  },
+  define: {
+    "import.meta.url": "undefined",
+  },
   resolve: {
     alias: {
       "@lame-wasm": LAME_LIB_DIR,
