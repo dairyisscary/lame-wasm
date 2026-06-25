@@ -1,6 +1,6 @@
 # lame-wasm
 
-[LAME](https://lame.sourceforge.io/) compiled into freestanding WASM.
+[LAME][lame] compiled into freestanding WASM with a TypeScript/JavaScript bridge API.
 
 ## Installation and Example Usage
 
@@ -15,7 +15,7 @@ async function record() {
   // Mono 48kbps PCM input, 128kbps output
   const lame = await init({
     channels: 1,
-    sampleRate: 48_000, // Perhaps from a new AudioContext().sampleRate...
+    sampleRate: 48_000, // Perhaps from a `new AudioContext().sampleRate`...
     kilobitRate: 128,
   });
 
@@ -26,6 +26,13 @@ async function record() {
   const mp3 = new Blob(chunks, { type: "audio/mp3" });
 }
 ```
+
+## License
+
+`lame-wasm` itself is licensed under the MIT license, while the `LAME` library is licensed under
+the [Library General Public License V2][gpl2]. `lame-wasm` contains no source code nor
+modifications of `LAME`, but its compiled, distributed form in the NPM registry is comprised of
+portions of `LAME` object code.
 
 ## Development
 
@@ -51,3 +58,6 @@ tsc -p tsconfig.publish.json
 pnpm login
 pnpm publish --access public
 ```
+
+[lame]: https://lame.sourceforge.io/
+[gpl2]: https://www.gnu.org/licenses/old-licenses/lgpl-2.0.html
