@@ -16,7 +16,7 @@
         nasmSupport = false;
       };
       lameWasmLib = pkgs.mkWasmDerivation {
-        inherit (lameBaseline) pname version src preConfigure;
+        inherit (lameBaseline) pname version src patches nativeBuildInputs;
 
         configureFlags = lameBaseline.configureFlags ++ [
           "--disable-dependency-tracking"
@@ -61,7 +61,7 @@
           fileset = lib.fileset.fileFilter (file: lib.hasSuffix ".c" file.name) ./src;
         };
 
-        buildInputs = [
+        nativeBuildInputs = [
           lameWasmLib
         ];
 
@@ -103,7 +103,6 @@
 
         packages = [
           corepackShims
-          (pkgs.typescript-language-server.override { inherit nodejs; })
           nodejs.out
         ];
 
